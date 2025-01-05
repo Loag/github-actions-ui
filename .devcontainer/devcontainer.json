@@ -1,0 +1,19 @@
+{
+  "name": "github-actions-ui-dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/typescript": {},
+    "ghcr.io/devcontainers/features/node": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "eamodio.gitlens",
+        "PKief.material-icon-theme",
+        "enkia.tokyo-night"
+      ]
+    }
+  }
+}
