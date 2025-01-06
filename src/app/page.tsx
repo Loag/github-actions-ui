@@ -1,42 +1,66 @@
 import { GitHubService } from "@/services";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { WorkflowTableRow } from "@/components/WorkflowTableRow"
+import Image from "next/image";
 
-// Since we're fetching data, we need to make this an async component
 export default async function Home() {
-  // Fetch workflow runs using GitHubService
-  const workflowRuns = (await GitHubService.getUserRepositoriesWorkflows()).filter(item => item.total_count > 0)
+
+  const githubService = new GitHubService(process.env.GITHUB_TOKEN!)
+
+  const user = await githubService.getUser();
+
+  const repositories = (await githubService.getAllRepositoriesWithWorkflows());
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="items-center justify-items-center min-h-screen pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
-        <div className="flex w-full justify-between items-center">
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            Workflow runs
-          </h3>
+        <div className="flex w-full justify-between items-center gap-4">
+          <div className="flex items-center gap-4">
+            <Image 
+              src={user.avatar_url || ''} 
+              alt={`${user.name}'s avatar`}
+              className="w-12 h-12 rounded-full"
+              width={48}
+              height={48}
+              unoptimized
+            />
+            <div className="flex flex-col">
+              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                {user.name}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                @{user.login}
+              </p>
+            </div>
+          </div>
         </div>
         < Table >
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Path</TableHead>
-              <TableHead>State</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Updated At</TableHead>
-              <TableHead className="text-right">HTML URL</TableHead>
+              <TableHead>Repo</TableHead>
+              <TableHead>Action Name</TableHead>
+              <TableHead>Actor</TableHead>
+              <TableHead>Trigger</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Started At</TableHead>
+              <TableHead>Duration</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {workflowRuns.map((item) => (
-              item.workflows.map((workflow, index) => 
-              <TableRow key={index}>
-                <TableCell>{workflow.id}</TableCell>
-                <TableCell>{workflow.name}</TableCell>
-                <TableCell>{workflow.path}</TableCell>
-                <TableCell>{workflow.state}</TableCell>
-                <TableCell>{workflow.created_at}</TableCell>
-              </TableRow>
-              )
+            {repositories.map((item) => (
+              item.workflows.map((workflow, index) => (
+                <WorkflowTableRow
+                  key={index}
+                  repoName={item.repoName}
+                  actor={workflow.lastRun?.actor}
+                  trigger={workflow.lastRun?.trigger}
+                  workflowName={workflow.workflowName}
+                  status={workflow.lastRun?.status}
+                  startedAt={workflow.lastRun?.startedAt}
+                  duration={workflow.lastRun?.duration ?? 0}
+                  url={workflow.lastRun?.url}
+                />
+              ))
             ))}
           </TableBody>
         </Table >
