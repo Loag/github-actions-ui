@@ -1,7 +1,6 @@
 import { GitHubService } from "@/services";
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { WorkflowTableRow } from "@/components/WorkflowTableRow"
 import Image from "next/image";
+import { WorkflowCard } from "@/components/WorkflowCard";
 
 export default async function Home() {
 
@@ -37,38 +36,25 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        < Table >
-          <TableHeader>
-            <TableRow>
-              <TableHead>Repo</TableHead>
-              <TableHead>Action Name</TableHead>
-              <TableHead>Actor</TableHead>
-              <TableHead>Trigger</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>State</TableHead>
-              <TableHead>Started At</TableHead>
-              <TableHead>Duration</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {repositories.map((item) => (
-              item.workflows.map((workflow, index) => (
-                <WorkflowTableRow
-                  key={index}
-                  repoName={item.repoName}
-                  actor={workflow.lastRun?.actor}
-                  trigger={workflow.lastRun?.trigger}
-                  workflowName={workflow.workflowName}
-                  conclusion={workflow.lastRun?.conclusion}
-                  status={workflow.lastRun?.status}
-                  startedAt={workflow.lastRun?.startedAt}
-                  duration={workflow.lastRun?.duration ?? 0}
-                  url={workflow.lastRun?.url}
-                />
-              ))
-            ))}
-          </TableBody>
-        </Table >
+        
+        <div className="flex flex-col gap-4 w-full">
+          {repositories.map((item) =>
+            item.workflows.map((workflow, index) => (
+              <WorkflowCard
+                key={index}
+                repoName={item.repoName}
+                actor={workflow.lastRun?.actor}
+                trigger={workflow.lastRun?.trigger}
+                workflowName={workflow.workflowName}
+                conclusion={workflow.lastRun?.conclusion}
+                status={workflow.lastRun?.status}
+                startedAt={workflow.lastRun?.startedAt}
+                duration={workflow.lastRun?.duration ?? 0}
+                url={workflow.lastRun?.url}
+              />
+            ))
+          )}
+        </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
       </footer>
