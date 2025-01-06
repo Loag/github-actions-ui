@@ -1,6 +1,7 @@
 import { GitHubService } from "@/services";
 import Image from "next/image";
 import { WorkflowCard } from "@/components/WorkflowCard";
+import { RefreshButton } from "@/components/RefreshButton";
 
 export default async function Home() {
 
@@ -15,7 +16,9 @@ export default async function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
         <div className="flex w-full justify-between items-center gap-4">
           <div className="flex flex-row justify-between items-center w-full">
-            <h1 className="text-3xl font-semibold tracking-tight">Last action runs</h1>
+            <div>
+              <h1 className="text-3xl font-semibold tracking-tight inline-flex items-center gap-2">Last action runs <RefreshButton /></h1>
+            </div>
             <div className="flex items-center gap-4">
             <div className="flex flex-col">
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
