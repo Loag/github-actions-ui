@@ -5,6 +5,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 interface WorkflowTableRowProps {
   repoName: string
   workflowName: string
+  conclusion: string | null | undefined
   status: string | null | undefined
   startedAt: string | null | undefined
   duration: number | null | undefined
@@ -16,6 +17,7 @@ interface WorkflowTableRowProps {
 export function WorkflowTableRow({
   repoName,
   workflowName,
+  conclusion,
   actor,
   trigger,
   status,
@@ -32,6 +34,7 @@ export function WorkflowTableRow({
       <TableCell>{workflowName}</TableCell>
       <TableCell>{actor}</TableCell>
       <TableCell>{trigger}</TableCell>
+      <TableCell>{conclusion}</TableCell>
       <TableCell>{status}</TableCell>
       <TableCell>{formatDate(startedAt)}</TableCell>
       <TableCell>{formatDuration(duration)}</TableCell> 
