@@ -23,19 +23,19 @@ export default async function Home() {
                 Last action runs
               </h1>
               <div className="inline-flex items-center gap-2 mt-2">
-                <span className="text-sm text-muted-foreground">Refreshing in <span id="countdown">15</span>s</span>
+                <span className="text-sm text-muted-foreground">Refreshing in <span id="countdown">30</span>s</span>
                 <RefreshCw className="h-4 w-4 text-muted-foreground" id="refresh-icon" />
               </div>
               <script>
                 {`
-                  let countdown = 15;
+                  let countdown = 30;
                   const countdownEl = document.getElementById('countdown');
                   const refreshIcon = document.getElementById('refresh-icon');
                   
                   setInterval(() => {
                     countdown--;
                     if (countdown <= 0) {
-                      countdown = 15;
+                      countdown = 30;
                       refreshIcon.classList.add('animate-spin');
                       window.location.reload();
                       setTimeout(() => {
