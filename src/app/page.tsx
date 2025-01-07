@@ -1,7 +1,7 @@
 import { GitHubService } from "@/services";
 import Image from "next/image";
 import { WorkflowCard } from "@/components/WorkflowCard";
-import { RefreshButton } from "@/components/RefreshButton";
+import { RefreshCw } from "lucide-react";
 
 export default async function Home() {
 
@@ -17,7 +17,33 @@ export default async function Home() {
         <div className="flex w-full justify-between items-center gap-4">
           <div className="flex flex-row justify-between items-center w-full">
             <div>
-              <h1 className="text-3xl font-semibold tracking-tight inline-flex items-center gap-2">Last action runs <RefreshButton /></h1>
+              <h1 className="text-3xl font-semibold tracking-tight">
+                Last action runs
+              </h1>
+              <div className="inline-flex items-center gap-2 mt-2">
+                <span className="text-sm text-muted-foreground">Refreshing in <span id="countdown">15</span>s</span>
+                <RefreshCw className="h-4 w-4 text-muted-foreground" id="refresh-icon" />
+              </div>
+              <script>
+                {`
+                  let countdown = 15;
+                  const countdownEl = document.getElementById('countdown');
+                  const refreshIcon = document.getElementById('refresh-icon');
+                  
+                  setInterval(() => {
+                    countdown--;
+                    if (countdown <= 0) {
+                      countdown = 15;
+                      refreshIcon.classList.add('animate-spin');
+                      window.location.reload();
+                      setTimeout(() => {
+                        refreshIcon.classList.remove('animate-spin');
+                      }, 1000);
+                    }
+                    countdownEl.textContent = countdown;
+                  }, 1000);
+                `}
+              </script>
             </div>
             <div className="flex items-center gap-4">
             <div className="flex flex-col">

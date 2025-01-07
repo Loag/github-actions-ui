@@ -57,7 +57,7 @@ export function WorkflowCard({
                 {workflowName}
               </h4>
               <p className="text-sm text-muted-foreground">
-                Triggered by {actor} via {trigger}
+                Triggered by {actor} via {cleanDisplayString(trigger)}
               </p>
             </div>
             <div>
@@ -73,7 +73,7 @@ export function WorkflowCard({
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2">
               {getStatusIcon(status)}
-              <span className="text-base capitalize">{status}</span>
+              <span className="text-base capitalize">{cleanDisplayString(status)}</span>
             </div>
           </div>
         </CardContent>
@@ -160,3 +160,8 @@ const getStatusIcon = (status: string | null | undefined) => {
       return null;
   }
 };
+
+
+const cleanDisplayString = (status: string | null | undefined) => {
+  return status?.replace(/_/g, ' ');
+}

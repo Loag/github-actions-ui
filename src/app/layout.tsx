@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Github Actions Dashboard",
+  title: "Actions Center",
   description: "A view or all your Github Actions"
 };
 export default function RootLayout({
