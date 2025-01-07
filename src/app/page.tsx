@@ -46,6 +46,8 @@ export default async function Home() {
               <WorkflowCard
                 key={index}
                 repoName={item.repoName}
+                repoDescription={item.repoDescription}
+                repoVisibility={item.repoVisibility}
                 actor={workflow.lastRun?.actor}
                 trigger={workflow.lastRun?.trigger}
                 workflowName={workflow.workflowName}

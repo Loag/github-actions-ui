@@ -19,6 +19,9 @@ interface WorkflowWithLastRun {
 interface RepositoryWorkflows {
   repoName: string;
   repoId: number;
+  repoVisibility: string | undefined;
+  repoDescription: string | null;
+  repoOwner: string | undefined;
   workflows: WorkflowWithLastRun[];
 }
 
@@ -55,6 +58,9 @@ export class GitHubService {
         return {
           repoName: repo.name,
           repoId: repo.id,
+          repoVisibility: repo.visibility,
+          repoDescription: repo.description,
+          repoOwner: repo.owner.login,
           workflows
         };
       })
@@ -68,6 +74,9 @@ export class GitHubService {
           .map(workflow => ({
             repoName: repo.repoName,
             repoId: repo.repoId,
+            repoVisibility: repo.repoVisibility,
+            repoDescription: repo.repoDescription,
+            repoOwner: repo.repoOwner,
             workflow
           }))
       )
@@ -76,9 +85,12 @@ export class GitHubService {
         const bTime = new Date(b.workflow.lastRun!.startedAt!).getTime();
         return bTime - aTime; // Sort descending (newest first)
       })
-      .map(({repoName, repoId, workflow}) => ({
+      .map(({repoName, repoId, repoVisibility, repoDescription, repoOwner, workflow}) => ({
         repoName,
         repoId,
+        repoVisibility,
+        repoDescription,
+        repoOwner,
         workflows: [workflow]
       }));
 
