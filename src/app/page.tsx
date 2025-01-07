@@ -3,6 +3,8 @@ import Image from "next/image";
 import { WorkflowCard } from "@/components/WorkflowCard";
 import { RefreshCw } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
 
   const githubService = new GitHubService(process.env.GITHUB_TOKEN!)
